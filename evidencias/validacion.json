@@ -1,0 +1,15 @@
+{
+  "estado": "APROBADO",
+  "pruebas": [
+    "1000 viajes y 265 zonas",
+    "Suma en centavos cotejada fuera de MongoDB",
+    "Conteos por zona cotejados fuera de MongoDB",
+    "1000 fechas BSON Date",
+    "Sin referencias de origen ni destino huérfanas",
+    "CRUD cambia y elimina solo el documento demo",
+    "Índice forzado IXSCAN verificado"
+  ],
+  "mongodb": "8.0.17",
+  "mongosh": "2.5.10",
+  "fecha": "2026-11-14T23:48:32.035434-05:00"
+}

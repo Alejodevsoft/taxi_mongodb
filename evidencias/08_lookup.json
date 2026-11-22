@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "tlc_202501_00001",
+    "origen": "Upper East Side North",
+    "destino": "Upper East Side South",
+    "importe_usd": 12.12
+  },
+  {
+    "_id": "tlc_202501_00011",
+    "origen": "Upper West Side South",
+    "destino": "Greenwich Village North",
+    "importe_usd": 39
+  },
+  {
+    "_id": "tlc_202501_00021",
+    "origen": "Sutton Place/Turtle Bay North",
+    "destino": "East Harlem South",
+    "importe_usd": 13.8
+  }
+]

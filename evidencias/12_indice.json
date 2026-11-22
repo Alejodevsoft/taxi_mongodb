@@ -1,0 +1,36 @@
+{
+  "indice_solicitado": "origen_fecha",
+  "plan": {
+    "isCached": false,
+    "stage": "FETCH",
+    "inputStage": {
+      "stage": "IXSCAN",
+      "keyPattern": {
+        "zona_origen_id": 1,
+        "fecha_inicio": 1
+      },
+      "indexName": "origen_fecha",
+      "isMultiKey": false,
+      "multiKeyPaths": {
+        "zona_origen_id": [],
+        "fecha_inicio": []
+      },
+      "isUnique": false,
+      "isSparse": false,
+      "isPartial": false,
+      "indexVersion": 2,
+      "direction": "forward",
+      "indexBounds": {
+        "zona_origen_id": [
+          "[236, 236]"
+        ],
+        "fecha_inicio": [
+          "[new Date(1735707600000), new Date(9223372036854775807)]"
+        ]
+      }
+    }
+  },
+  "devueltos": 12,
+  "documentos_examinados": 12,
+  "claves_examinadas": 12
+}

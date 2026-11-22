@@ -1,0 +1,13 @@
+{
+  "fuente": "https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page",
+  "archivo_previo": "Tarea 3/taxi_unad/data/replay.jsonl",
+  "sha256_replay": "eb15f9fd1de7e1e1794b3d41aa23b9d81fbd233c8f0ecd640229454f6d5a97f6",
+  "seleccion": "lineas 1, 11, 21, ..., 9991; muestreo sistematico de la muestra limpia de Tarea 3",
+  "n_viajes": 1000,
+  "n_zonas": 265,
+  "fecha_inicio_min": "2025-01-01T00:00:55-05:00",
+  "fecha_inicio_max": "2025-01-01T14:58:40-05:00",
+  "limitacion": "Muestra didactica no probabilistica. No representa todo enero ni toda la ciudad.",
+  "fechas": "Fechas locales TLC de enero interpretadas en America/New_York (UTC-05:00) y convertidas a BSON Date.",
+  "dinero": "Importe total cobrado, en centavos USD. No equivale a utilidad ni ingreso neto del conductor."
+}

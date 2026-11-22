@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "tlc_202501_04881",
+    "zona_origen_id": 132,
+    "duracion_min": 30.583333333333332,
+    "importe_centavos": 12000
+  },
+  {
+    "_id": "tlc_202501_05551",
+    "zona_origen_id": 132,
+    "duracion_min": 51.983333333333334,
+    "importe_centavos": 11959
+  },
+  {
+    "_id": "tlc_202501_05931",
+    "zona_origen_id": 132,
+    "duracion_min": 28.6,
+    "importe_centavos": 10697
+  },
+  {
+    "_id": "tlc_202501_01241",
+    "zona_origen_id": 138,
+    "duracion_min": 28.833333333333332,
+    "importe_centavos": 10529
+  },
+  {
+    "_id": "tlc_202501_05571",
+    "zona_origen_id": 132,
+    "duracion_min": 35.583333333333336,
+    "importe_centavos": 10355
+  }
+]

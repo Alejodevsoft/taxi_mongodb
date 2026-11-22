@@ -1,0 +1,14 @@
+{
+  "cambio": {
+    "acknowledged": true,
+    "insertedId": null,
+    "matchedCount": 1,
+    "modifiedCount": 1,
+    "upsertedCount": 0
+  },
+  "documento": {
+    "_id": "demo_crud_t4",
+    "importe_centavos": 2000,
+    "estado_revision": "verificado"
+  }
+}

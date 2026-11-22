@@ -1,0 +1,10 @@
+[
+  {
+    "_id": "demo_crud_t4",
+    "fecha_inicio": {
+      "$date": "2025-01-01T15:00:00Z"
+    },
+    "importe_centavos": 2000,
+    "estado_revision": "pendiente"
+  }
+]

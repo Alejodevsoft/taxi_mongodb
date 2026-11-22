@@ -1,0 +1,25 @@
+{
+  "viajes": 1000,
+  "zonas": 265,
+  "ejemplo": {
+    "_id": "tlc_202501_00001",
+    "fecha_inicio": {
+      "$date": "2025-01-01T05:32:40Z"
+    },
+    "fecha_fin": {
+      "$date": "2025-01-01T05:35:13Z"
+    },
+    "zona_origen_id": 236,
+    "zona_destino_id": 237,
+    "distancia_millas": 0.5,
+    "duracion_min": 2.55,
+    "importe_centavos": 1212,
+    "moneda": "USD",
+    "fuente": "TLC yellow taxi 2025-01",
+    "estado_revision": "pendiente",
+    "origen_muestra": {
+      "archivo": "replay.jsonl",
+      "linea": 1
+    }
+  }
+}

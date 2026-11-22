@@ -1,0 +1,37 @@
+[
+  {
+    "viajes": 48,
+    "zona_id": 79,
+    "zona": "East Village",
+    "total_usd": 1036.01,
+    "promedio_usd": 21.58
+  },
+  {
+    "viajes": 40,
+    "zona_id": 68,
+    "zona": "East Chelsea",
+    "total_usd": 1073.13,
+    "promedio_usd": 26.83
+  },
+  {
+    "viajes": 40,
+    "zona_id": 132,
+    "zona": "JFK Airport",
+    "total_usd": 3121.45,
+    "promedio_usd": 78.04
+  },
+  {
+    "viajes": 36,
+    "zona_id": 164,
+    "zona": "Midtown South",
+    "total_usd": 901.62,
+    "promedio_usd": 25.05
+  },
+  {
+    "viajes": 36,
+    "zona_id": 186,
+    "zona": "Penn Station/Madison Sq West",
+    "total_usd": 964.45,
+    "promedio_usd": 26.79
+  }
+]

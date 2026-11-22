@@ -1,0 +1,297 @@
+[
+  {
+    "id": "01_conteo",
+    "titulo": "Conteo y documento de ejemplo",
+    "codigo": "({viajes:db.viajes.countDocuments(),zonas:db.zonas.countDocuments(),\nejemplo:db.viajes.findOne({_id:'tlc_202501_00001'})})",
+    "resultado": {
+      "viajes": 1000,
+      "zonas": 265,
+      "ejemplo": {
+        "_id": "tlc_202501_00001",
+        "fecha_inicio": {
+          "$date": "2025-01-01T05:32:40Z"
+        },
+        "fecha_fin": {
+          "$date": "2025-01-01T05:35:13Z"
+        },
+        "zona_origen_id": 236,
+        "zona_destino_id": 237,
+        "distancia_millas": 0.5,
+        "duracion_min": 2.55,
+        "importe_centavos": 1212,
+        "moneda": "USD",
+        "fuente": "TLC yellow taxi 2025-01",
+        "estado_revision": "pendiente",
+        "origen_muestra": {
+          "archivo": "replay.jsonl",
+          "linea": 1
+        }
+      }
+    },
+    "analisis": "La base contiene 1.000 viajes y 265 zonas. Se supera el mínimo de 100 documentos sin contar el catálogo auxiliar. El ejemplo conserva la referencia a la línea de origen."
+  },
+  {
+    "id": "02_insertar",
+    "titulo": "Inserción de un documento de demostración",
+    "codigo": "db.viajes.insertOne({_id:'demo_crud_t4',\nfecha_inicio:ISODate('2025-01-01T15:00:00Z'),fecha_fin:ISODate('2025-01-01T15:10:00Z'),\nzona_origen_id:236,zona_destino_id:237,distancia_millas:2.5,duracion_min:10,\nimporte_centavos:2000,moneda:'USD',estado_revision:'pendiente',es_demo:true})",
+    "resultado": {
+      "acknowledged": true,
+      "insertedId": "demo_crud_t4"
+    },
+    "analisis": "MongoDB confirmó la inserción de demo_crud_t4. Es un viaje ficticio reservado para demostrar CRUD, separado por su identificador y la marca es_demo."
+  },
+  {
+    "id": "03_seleccionar",
+    "titulo": "Selección por identificador",
+    "codigo": "db.viajes.find({_id:'demo_crud_t4'},\n{fecha_inicio:1,importe_centavos:1,estado_revision:1}).toArray()",
+    "resultado": [
+      {
+        "_id": "demo_crud_t4",
+        "fecha_inicio": {
+          "$date": "2025-01-01T15:00:00Z"
+        },
+        "importe_centavos": 2000,
+        "estado_revision": "pendiente"
+      }
+    ],
+    "analisis": "La selección recuperó el registro demo con importe de 2.000 centavos y estado pendiente. La proyección muestra solo los campos necesarios."
+  },
+  {
+    "id": "04_actualizar",
+    "titulo": "Actualización y comprobación",
+    "codigo": "(()=>{const cambio=db.viajes.updateOne({_id:'demo_crud_t4'},\n{$set:{estado_revision:'verificado'}});\nreturn {cambio,documento:db.viajes.findOne({_id:'demo_crud_t4'},\n{estado_revision:1,importe_centavos:1})};})()",
+    "resultado": {
+      "cambio": {
+        "acknowledged": true,
+        "insertedId": null,
+        "matchedCount": 1,
+        "modifiedCount": 1,
+        "upsertedCount": 0
+      },
+      "documento": {
+        "_id": "demo_crud_t4",
+        "importe_centavos": 2000,
+        "estado_revision": "verificado"
+      }
+    },
+    "analisis": "La actualización encontró y modificó un documento. La lectura posterior confirmó el estado verificado sin alterar el importe."
+  },
+  {
+    "id": "05_eliminar",
+    "titulo": "Eliminación acotada al documento de demostración",
+    "codigo": "(()=>{const eliminacion=db.viajes.deleteOne({_id:'demo_crud_t4',es_demo:true});\nreturn {eliminacion,restantes_demo:db.viajes.countDocuments({_id:'demo_crud_t4'}),\nviajes_originales:db.viajes.countDocuments()};})()",
+    "resultado": {
+      "eliminacion": {
+        "acknowledged": true,
+        "deletedCount": 1
+      },
+      "restantes_demo": 0,
+      "viajes_originales": 1000
+    },
+    "analisis": "La eliminación retiró un documento demo. El conteo posterior confirmó cero registros con ese identificador y conservó los 1.000 viajes originales."
+  },
+  {
+    "id": "06_filtros",
+    "titulo": "Filtros con operadores y ordenamiento",
+    "codigo": "db.viajes.find({importe_centavos:{$gte:3000},\nduracion_min:{$gte:10,$lte:60},zona_origen_id:{$in:[132,138,236,237]}},\n{_id:1,zona_origen_id:1,duracion_min:1,importe_centavos:1})\n.sort({importe_centavos:-1,_id:1}).limit(5).toArray()",
+    "resultado": [
+      {
+        "_id": "tlc_202501_04881",
+        "zona_origen_id": 132,
+        "duracion_min": 30.583333333333332,
+        "importe_centavos": 12000
+      },
+      {
+        "_id": "tlc_202501_05551",
+        "zona_origen_id": 132,
+        "duracion_min": 51.983333333333334,
+        "importe_centavos": 11959
+      },
+      {
+        "_id": "tlc_202501_05931",
+        "zona_origen_id": 132,
+        "duracion_min": 28.6,
+        "importe_centavos": 10697
+      },
+      {
+        "_id": "tlc_202501_01241",
+        "zona_origen_id": 138,
+        "duracion_min": 28.833333333333332,
+        "importe_centavos": 10529
+      },
+      {
+        "_id": "tlc_202501_05571",
+        "zona_origen_id": 132,
+        "duracion_min": 35.583333333333336,
+        "importe_centavos": 10355
+      }
+    ],
+    "analisis": "El filtro combina importe mínimo de USD 30, duración entre 10 y 60 minutos y cuatro zonas de origen. Ordena por importe descendente y devuelve cinco ejemplos. El mayor importe mostrado es USD 120,00, con origen en JFK."
+  },
+  {
+    "id": "07_fechas",
+    "titulo": "Filtro por fechas BSON Date",
+    "codigo": "({cantidad:db.viajes.countDocuments({fecha_inicio:{\n$gte:ISODate('2025-01-01T05:00:00Z'),$lt:ISODate('2025-01-02T05:00:00Z')}}),\nprimeros:db.viajes.find({fecha_inicio:{$gte:ISODate('2025-01-01T05:00:00Z'),\n$lt:ISODate('2025-01-02T05:00:00Z')}},{fecha_inicio:1}).sort({fecha_inicio:1,_id:1}).limit(3).toArray()})",
+    "resultado": {
+      "cantidad": 1000,
+      "primeros": [
+        {
+          "_id": "tlc_202501_01081",
+          "fecha_inicio": {
+            "$date": "2025-01-01T05:00:55Z"
+          }
+        },
+        {
+          "_id": "tlc_202501_00611",
+          "fecha_inicio": {
+            "$date": "2025-01-01T05:02:25Z"
+          }
+        },
+        {
+          "_id": "tlc_202501_00131",
+          "fecha_inicio": {
+            "$date": "2025-01-01T05:03:10Z"
+          }
+        }
+      ]
+    },
+    "analisis": "El rango semiabierto usa las 05:00 UTC como inicio del día local en Nueva York. Los 1.000 viajes pertenecen al 1 de enero de 2025. Guardar las fechas como Date permite comparaciones temporales consistentes."
+  },
+  {
+    "id": "08_lookup",
+    "titulo": "Unión de viajes con el catálogo de zonas",
+    "codigo": "db.viajes.aggregate([\n{$sort:{_id:1}},{$limit:3},\n{$lookup:{from:'zonas',localField:'zona_origen_id',foreignField:'_id',as:'origen'}},\n{$lookup:{from:'zonas',localField:'zona_destino_id',foreignField:'_id',as:'destino'}},\n{$project:{_id:1,origen:{$arrayElemAt:['$origen.nombre',0]},\ndestino:{$arrayElemAt:['$destino.nombre',0]},importe_usd:{$divide:['$importe_centavos',100]}}}\n]).toArray()",
+    "resultado": [
+      {
+        "_id": "tlc_202501_00001",
+        "origen": "Upper East Side North",
+        "destino": "Upper East Side South",
+        "importe_usd": 12.12
+      },
+      {
+        "_id": "tlc_202501_00011",
+        "origen": "Upper West Side South",
+        "destino": "Greenwich Village North",
+        "importe_usd": 39
+      },
+      {
+        "_id": "tlc_202501_00021",
+        "origen": "Sutton Place/Turtle Bay North",
+        "destino": "East Harlem South",
+        "importe_usd": 13.8
+      }
+    ],
+    "analisis": "Dos etapas $lookup traducen los identificadores de origen y destino a nombres del catálogo. Se limita a tres documentos para mostrar el resultado sin duplicar el catálogo en cada viaje."
+  },
+  {
+    "id": "09_agregacion",
+    "titulo": "Conteo suma y promedio generales",
+    "codigo": "db.viajes.aggregate([\n{$group:{_id:null,viajes:{$sum:1},total_centavos:{$sum:'$importe_centavos'},\npromedio_centavos:{$avg:'$importe_centavos'},duracion_promedio_min:{$avg:'$duracion_min'}}},\n{$project:{_id:0,viajes:1,total_centavos:1,total_usd:{$divide:['$total_centavos',100]},\npromedio_usd:{$round:[{$divide:['$promedio_centavos',100]},2]},\nduracion_promedio_min:{$round:['$duracion_promedio_min',2]}}}\n]).toArray()",
+    "resultado": [
+      {
+        "viajes": 1000,
+        "total_centavos": 2937020,
+        "total_usd": 29370.2,
+        "promedio_usd": 29.37,
+        "duracion_promedio_min": 15.48
+      }
+    ],
+    "analisis": "Los 1.000 viajes suman USD 29.370,20 de importe total cobrado. El promedio es USD 29,37 y la duración promedio es 15,48 minutos. Estos valores describen la muestra; no representan utilidad, ingreso neto ni estimaciones de todo enero."
+  },
+  {
+    "id": "10_por_zona",
+    "titulo": "Estadísticas por zona de origen",
+    "codigo": "db.viajes.aggregate([\n{$group:{_id:'$zona_origen_id',viajes:{$sum:1},total_centavos:{$sum:'$importe_centavos'},\npromedio_centavos:{$avg:'$importe_centavos'}}},\n{$sort:{viajes:-1,_id:1}},{$limit:5},\n{$lookup:{from:'zonas',localField:'_id',foreignField:'_id',as:'zona'}},\n{$project:{_id:0,zona_id:'$_id',zona:{$arrayElemAt:['$zona.nombre',0]},viajes:1,\ntotal_usd:{$divide:['$total_centavos',100]},\npromedio_usd:{$round:[{$divide:['$promedio_centavos',100]},2]}}}\n]).toArray()",
+    "resultado": [
+      {
+        "viajes": 48,
+        "zona_id": 79,
+        "zona": "East Village",
+        "total_usd": 1036.01,
+        "promedio_usd": 21.58
+      },
+      {
+        "viajes": 40,
+        "zona_id": 68,
+        "zona": "East Chelsea",
+        "total_usd": 1073.13,
+        "promedio_usd": 26.83
+      },
+      {
+        "viajes": 40,
+        "zona_id": 132,
+        "zona": "JFK Airport",
+        "total_usd": 3121.45,
+        "promedio_usd": 78.04
+      },
+      {
+        "viajes": 36,
+        "zona_id": 164,
+        "zona": "Midtown South",
+        "total_usd": 901.62,
+        "promedio_usd": 25.05
+      },
+      {
+        "viajes": 36,
+        "zona_id": 186,
+        "zona": "Penn Station/Madison Sq West",
+        "total_usd": 964.45,
+        "promedio_usd": 26.79
+      }
+    ],
+    "analisis": "East Village reúne 48 viajes y encabeza el conteo de la muestra. East Chelsea y JFK tienen 40 cada uno. JFK registra USD 78,04 de importe medio frente a USD 21,58 en East Village. La diferencia describe los viajes observados y no demuestra una causa."
+  },
+  {
+    "id": "11_integridad",
+    "titulo": "Tipos y relaciones del conjunto cargado",
+    "codigo": "({fechas_date:db.viajes.countDocuments({fecha_inicio:{$type:'date'}}),\nsin_origen:db.viajes.aggregate([\n{$lookup:{from:'zonas',localField:'zona_origen_id',foreignField:'_id',as:'z'}},\n{$match:{z:{$size:0}}},{$count:'cantidad'}]).toArray(),\nsin_destino:db.viajes.aggregate([\n{$lookup:{from:'zonas',localField:'zona_destino_id',foreignField:'_id',as:'z'}},\n{$match:{z:{$size:0}}},{$count:'cantidad'}]).toArray()})",
+    "resultado": {
+      "fechas_date": 1000,
+      "sin_origen": [],
+      "sin_destino": []
+    },
+    "analisis": "Se comprobaron 1.000 fechas de tipo Date. Los arreglos vacíos en las consultas de referencias huérfanas indican que no se encontró ningún viaje sin zona de origen o destino en el catálogo. MongoDB no impone estas relaciones como claves foráneas."
+  },
+  {
+    "id": "12_indice",
+    "titulo": "Comprobación del índice compuesto",
+    "codigo": "(()=>{const e=db.viajes.find({zona_origen_id:236,\nfecha_inicio:{$gte:ISODate('2025-01-01T05:00:00Z')}})\n.hint('origen_fecha').explain('executionStats');\nreturn {indice_solicitado:'origen_fecha',plan:e.queryPlanner.winningPlan,\ndevueltos:e.executionStats.nReturned,documentos_examinados:e.executionStats.totalDocsExamined,\nclaves_examinadas:e.executionStats.totalKeysExamined};})()",
+    "resultado": {
+      "indice_solicitado": "origen_fecha",
+      "plan": {
+        "isCached": false,
+        "stage": "FETCH",
+        "inputStage": {
+          "stage": "IXSCAN",
+          "keyPattern": {
+            "zona_origen_id": 1,
+            "fecha_inicio": 1
+          },
+          "indexName": "origen_fecha",
+          "isMultiKey": false,
+          "multiKeyPaths": {
+            "zona_origen_id": [],
+            "fecha_inicio": []
+          },
+          "isUnique": false,
+          "isSparse": false,
+          "isPartial": false,
+          "indexVersion": 2,
+          "direction": "forward",
+          "indexBounds": {
+            "zona_origen_id": [
+              "[236, 236]"
+            ],
+            "fecha_inicio": [
+              "[new Date(1735707600000), new Date(9223372036854775807)]"
+            ]
+          }
+        }
+      },
+      "devueltos": 12,
+      "documentos_examinados": 12,
+      "claves_examinadas": 12
+    },
+    "analisis": "La consulta con hint solicita el índice origen_fecha y el plan muestra IXSCAN. Examinó 12 claves y 12 documentos para devolver 12 viajes de la zona 236. Es una comprobación de acceso por índice, no una prueba comparativa de rendimiento ni evidencia de la selección automática del optimizador."
+  }
+]

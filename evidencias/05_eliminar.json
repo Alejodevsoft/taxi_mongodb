@@ -1,0 +1,8 @@
+{
+  "eliminacion": {
+    "acknowledged": true,
+    "deletedCount": 1
+  },
+  "restantes_demo": 0,
+  "viajes_originales": 1000
+}

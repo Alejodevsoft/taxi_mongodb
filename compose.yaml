@@ -1,0 +1,12 @@
+name: unad-tarea4
+services:
+  mongo:
+    image: mongo:8.0.17
+    working_dir: /trabajo
+    ports:
+      - "127.0.0.1:27019:27017"
+    volumes:
+      - .:/trabajo:ro
+      - mongo_t4:/data/db
+volumes:
+  mongo_t4:
